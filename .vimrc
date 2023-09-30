@@ -1,3 +1,74 @@
+" PLUGINS -----------------------------------------------------------------
+" {{{
+
+let data_dir = '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+
+Plug 'joshdick/onedark.vim'
+
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+
+
+" }}}
+
+
+" MAPPINGS ----------------------------------------------------------------
+" {{{
+
+" Clear hlsearch highlight with C-L
+nnoremap <silent> <C-L> :nohlsearch<C-R>='<Bar>diffupdate'<CR><CR><C-L>
+
+
+
+" }}}
+
+
+
+" COMMANDS ---------------------------------------------------------------
+" {{{
+
+" DiffOrig: display diff between buffer and original file
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+    \ | diffthis | wincmd p | diffthis
+
+" Man: enable vim :Man command
+if exists(':Man') != 2 && !exists('g:loaded_man') && &filetype !=? 'man' && !has('nvim')
+  runtime ftplugin/man.vim
+endif
+
+" }}}
+
+
+" VIMSCRIPT ---------------------------------------------------------------
+" {{{
+
+" Code folding
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
+
+" }}}
+
+
+
+" STATUS LINE -------------------------------------------------------------
+" {{{
+
+
+
+" }}}
+
+
+
 " DEFAULT OPTIONS ---------------------------------------------------------
 " {{{
 
@@ -88,68 +159,16 @@ set splitright splitbelow
 
 
 
-" PLUGINS -----------------------------------------------------------------
+" Colorscheme ------------------------------------------------------------
 " {{{
 
-let data_dir = '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+let g:onedark_terminal_italics=1
+
+set background=dark
+if (has("termguicolors"))
+    set termguicolors
 endif
 
-call plug#begin()
-
-call plug#end()
-
-
-" }}}
-
-
-
-" MAPPINGS ----------------------------------------------------------------
-" {{{
-
-" Clear hlsearch highlight with C-L
-nnoremap <silent> <C-L> :nohlsearch<C-R>='<Bar>diffupdate'<CR><CR><C-L>
-
-
-
-" }}}
-
-
-
-" COMMANDS ---------------------------------------------------------------
-" {{{
-
-" DiffOrig: display diff between buffer and original file
-command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
-    \ | diffthis | wincmd p | diffthis
-
-" Man: enable vim :Man command
-if exists(':Man') != 2 && !exists('g:loaded_man') && &filetype !=? 'man' && !has('nvim')
-  runtime ftplugin/man.vim
-endif
-
-" }}}
-
-
-" VIMSCRIPT ---------------------------------------------------------------
-" {{{
-
-" Code folding
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-augroup END
-
-
-" }}}
-
-
-
-" STATUS LINE -------------------------------------------------------------
-" {{{
-
-
+colorscheme onedark
 
 " }}}
