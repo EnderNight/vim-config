@@ -1,3 +1,14 @@
+"         _                                  _____      
+"  _   __(_)___ ___        _________  ____  / __(_)___ _
+" | | / / / __ `__ \______/ ___/ __ \/ __ \/ /_/ / __ `/
+" | |/ / / / / / / /_____/ /__/ /_/ / / / / __/ / /_/ / 
+" |___/_/_/ /_/ /_/      \___/\____/_/ /_/_/ /_/\__, /  
+"                                              /____/   
+
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+
 " PLUGINS -----------------------------------------------------------------
 " {{{
 
@@ -13,10 +24,30 @@ Plug 'joshdick/onedark.vim'
 
 Plug 'sheerun/vim-polyglot'
 
+Plug 'airblade/vim-gitgutter'
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'tpope/vim-surround'
+
+Plug 'dense-analysis/ale'
+
+Plug 'liuchengxu/vim-which-key'
+
+Plug 'Shougo/deoplete.nvim'
+
+Plug 'roxma/nvim-yarp'
+
+Plug 'roxma/vim-hug-neovim-rpc'
+
+Plug 'Shougo/deoplete-clangx'
+
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
 
 " }}}
+
 
 
 " MAPPINGS ----------------------------------------------------------------
@@ -25,7 +56,21 @@ call plug#end()
 " Clear hlsearch highlight with C-L
 nnoremap <silent> <C-L> :nohlsearch<C-R>='<Bar>diffupdate'<CR><CR><C-L>
 
+" Moving between wrapped lines
+nnoremap k gk
+nnoremap j gj
 
+" Trigger WhichKey
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+
+" ALE/LSP mappings
+nnoremap <leader>gd :ALEGoToDefinition<CR>
+nnoremap <leader>gi :ALEGoToImplementation<CR>
+nnoremap <leader>gt :ALEGoToTypeDefinition<CR>
+nnoremap <leader>fr :ALEFindReferences<CR>
+
+" Deoplete
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " }}}
 
@@ -46,6 +91,7 @@ endif
 " }}}
 
 
+
 " VIMSCRIPT ---------------------------------------------------------------
 " {{{
 
@@ -55,6 +101,8 @@ augroup filetype_vim
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
+" Use ALE as completion sources for all code.
+call deoplete#custom#option('sources', {'_': ['ale', 'deoplete-clangx', 'buffer', 'tag',],})
 
 " }}}
 
@@ -69,7 +117,7 @@ augroup END
 
 
 
-" DEFAULT OPTIONS ---------------------------------------------------------
+" OPTIONS ---------------------------------------------------------
 " {{{
 
 " Disable vi compatibility
@@ -129,7 +177,7 @@ set backspace=indent,eol,start
 set nrformats+=alpha
 
 " More responsive escape key
-set ttimeout ttimeoutlen=100
+set ttimeout ttimeoutlen=100 timeout timeoutlen=100
 
 " Always display status line
 set laststatus=2
@@ -155,11 +203,21 @@ set nolangremap
 " Correct spliting
 set splitright splitbelow
 
+" Signcolumn
+set signcolumn=yes
+
+" Vertical line cursor in insert mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+" Undofile
+set undofile
+
 " }}}
 
 
 
-" Colorscheme ------------------------------------------------------------
+" COLORSCHEME ------------------------------------------------------------
 " {{{
 
 let g:onedark_terminal_italics=1
