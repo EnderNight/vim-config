@@ -42,11 +42,16 @@ Plug 'roxma/vim-hug-neovim-rpc'
 
 Plug 'Shougo/deoplete-clangx'
 
+Plug 'vim-airline/vim-airline'
+
+Plug 'jiangmiao/auto-pairs'
+
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
 
 " }}}
+
 
 
 
